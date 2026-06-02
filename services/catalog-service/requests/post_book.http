@@ -1,0 +1,17 @@
+curl -X POST http://localhost:3002/books \
+  -H "Content-Type: application/json" \
+  -H "X-User-Role: admin" \
+  -d '{
+    "title": "Clean Code",
+    "author": "Robert C. Martin",
+    "isbn": "9780132350884",
+    "description": "Un libro esencial sobre buenas prácticas de programación",
+    "price": 29.99,
+    "stock": 50,
+    "language": "Inglés",
+    "pages": 464
+  }'
+
+
+
+-- 5b1752f5-c786-4807-b59a-9111b19f5579

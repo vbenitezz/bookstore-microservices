@@ -1,0 +1,51 @@
+// =============================================================================
+// cart.proto — Contrato gRPC del Cart Service
+//
+// Expone operaciones del carrito para uso interno de Order Service.
+// Order Service necesita leer el carrito y vaciarlo al crear una orden.
+// =============================================================================
+
+syntax = "proto3";
+
+package cart;
+
+service CartService {
+  // Retorna el contenido actual del carrito de un usuario.
+  rpc GetCart(GetCartRequest) returns (GetCartResponse);
+
+  // Vacía el carrito de un usuario tras crear la orden exitosamente.
+  rpc ClearCart(ClearCartRequest) returns (ClearCartResponse);
+}
+
+// --- GetCart ---
+
+message GetCartRequest {
+  string user_id = 1;
+}
+
+message GetCartResponse {
+  bool   found    = 1;
+  string user_id  = 2;
+  repeated CartItem items = 3;
+  double total    = 4;
+}
+
+message CartItem {
+  string book_id   = 1;
+  string title     = 2;
+  double price     = 3;
+  int32  quantity  = 4;
+  double subtotal  = 5;
+}
+
+// --- ClearCart ---
+
+message ClearCartRequest {
+  string user_id  = 1;
+  string order_id = 2; // Para logging y auditoría
+}
+
+message ClearCartResponse {
+  bool   success = 1;
+  string error   = 2;
+}

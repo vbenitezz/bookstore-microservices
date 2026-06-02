@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cart-service-config
+  namespace: bookstore
+data:
+  SERVICE_NAME: "cart-service"
+  PORT: "3003"
+  GRPC_PORT: "50053"
+  NODE_ENV: "production"
+  LOG_LEVEL: "info"
+
+  # Redis — ElastiCache
+  # TLS requerido: rediss:// (con doble s) para ElastiCache con TLS
+  REDIS_HOST: "master.bookstore-redis.zoqnld.use1.cache.amazonaws.com"
+  REDIS_PORT: "6379"
+
+  # URLs gRPC internas — usando nombres de Service de Kubernetes
+  # En Kubernetes, los servicios se resuelven por nombre dentro del namespace
+  AUTH_GRPC_URL: "auth-service:50051"
+  CATALOG_GRPC_URL: "catalog-service:50052"
+
+  PROTO_DIR: "/app/proto"

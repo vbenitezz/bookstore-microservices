@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cart-service
+  namespace: bookstore
+  labels:
+    app: cart-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cart-service
+  template:
+    metadata:
+      labels:
+        app: cart-service
+    spec:
+      containers:
+        - name: cart-service
+          image: 578426902456.dkr.ecr.us-east-1.amazonaws.com/bookstore/cart-service:latest
+          ports:
+            - containerPort: 3003
+              name: http
+            - containerPort: 50053
+              name: grpc
+
+          envFrom:
+            - configMapRef:
+                name: cart-service-config
+
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: bookstore-secrets
+                  key: REDIS_PASSWORD
+
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3003
+            initialDelaySeconds: 30
+            periodSeconds: 15
+            failureThreshold: 10
+            timeoutSeconds: 5
+
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3003
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            failureThreshold: 10
+            timeoutSeconds: 5
+
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "300m"
+
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30

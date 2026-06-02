@@ -1,0 +1,72 @@
+# =============================================================================
+# ingress.yaml — AWS Application Load Balancer
+#
+# Requiere AWS Load Balancer Controller instalado en el clúster.
+# Las instrucciones de instalación están en el deploy.sh.
+#
+# Rutas:
+#   /api/auth/*     → auth-service:3001
+#   /api/catalog/*  → catalog-service:3002
+#   /api/cart/*     → cart-service:3003
+#   /api/orders/*   → order-service:3004
+# =============================================================================
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bookstore-ingress
+  namespace: bookstore
+  annotations:
+    # Usar AWS ALB
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+
+    # Puertos que acepta el ALB
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+
+    # Health check del ALB
+    alb.ingress.kubernetes.io/healthcheck-path: /health
+    alb.ingress.kubernetes.io/healthcheck-interval-seconds: "30"
+    alb.ingress.kubernetes.io/healthcheck-timeout-seconds: "5"
+    alb.ingress.kubernetes.io/healthy-threshold-count: "2"
+    alb.ingress.kubernetes.io/unhealthy-threshold-count: "3"
+
+    # Grupo del ALB (permite compartir el ALB entre Ingresses)
+    alb.ingress.kubernetes.io/group.name: bookstore
+
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /api/auth
+            pathType: Prefix
+            backend:
+              service:
+                name: auth-service
+                port:
+                  number: 3001
+
+          - path: /api/catalog
+            pathType: Prefix
+            backend:
+              service:
+                name: catalog-service
+                port:
+                  number: 3002
+
+          - path: /api/cart
+            pathType: Prefix
+            backend:
+              service:
+                name: cart-service
+                port:
+                  number: 3003
+
+          - path: /api/orders
+            pathType: Prefix
+            backend:
+              service:
+                name: order-service
+                port:
+                  number: 3004

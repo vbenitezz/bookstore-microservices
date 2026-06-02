@@ -1,0 +1,48 @@
+services:
+  postgres:
+    extends:
+      file: docker-compose.yml
+      service: postgres
+  redis:
+    extends:
+      file: docker-compose.yml
+      service: redis
+  rabbitmq:
+    extends:
+      file: docker-compose.yml
+      service: rabbitmq
+  auth-service:
+    extends:
+      file: docker-compose.yml
+      service: auth-service
+  catalog-service:
+    extends:
+      file: docker-compose.yml
+      service: catalog-service
+  cart-service:
+    extends:
+      file: docker-compose.yml
+      service: cart-service
+  order-service:
+    extends:
+      file: docker-compose.yml
+      service: order-service
+  payment-service:
+    extends:
+      file: docker-compose.yml
+      service: payment-service
+  email-service:
+    extends:
+      file: docker-compose.yml
+      service: email-service
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  rabbitmq_data:
+    driver: local
+networks:
+  bookstore-network:
+    driver: bridge
+    name: bookstore-network

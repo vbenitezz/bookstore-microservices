@@ -1,0 +1,12 @@
+curl -X POST http://localhost:3001/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "valentina@bookstore.com",
+    "password": "valentina123",
+    "first_name": "Valentina",
+    "last_name": "Benitez"
+  }'
+
+
+
+-- eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwNDg3MTBiNy1lYjg3LTQ2MjktODM5MS01MThmMDMxMWIwNjYiLCJlbWFpbCI6InZhbGVudGluYUBib29rc3RvcmUuY29tIiwicm9sZSI6ImN1c3RvbWVyIiwiaWF0IjoxNzgwMDU3NjQzLCJleHAiOjE3ODAwNTg1NDN9.MVNcvkg3dufl9eibCxpyiPtG3XuZnAkwzE9ODF6pUzg

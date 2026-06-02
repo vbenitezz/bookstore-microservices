@@ -1,0 +1,22 @@
+# Estado de Terraform — contiene IPs, ARNs y datos sensibles
+*.tfstate
+*.tfstate.backup
+*.tfstate.lock.info
+
+# Variables con valores reales — NUNCA al repositorio
+terraform.tfvars
+
+# Directorio de trabajo de Terraform
+.terraform/
+.terraform.lock.hcl
+
+# Archivos de crash
+crash.log
+crash.*.log
+
+# Archivos generados
+*.tfplan
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json

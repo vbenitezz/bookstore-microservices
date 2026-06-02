@@ -1,0 +1,7 @@
+curl -X POST http://localhost:3003/cart/items \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwNDg3MTBiNy1lYjg3LTQ2MjktODM5MS01MThmMDMxMWIwNjYiLCJlbWFpbCI6InZhbGVudGluYUBib29rc3RvcmUuY29tIiwicm9sZSI6ImN1c3RvbWVyIiwiaWF0IjoxNzgwMDU3NjQzLCJleHAiOjE3ODAwNTg1NDN9.MVNcvkg3dufl9eibCxpyiPtG3XuZnAkwzE9ODF6pUzg" \
+  -d '{
+    "book_id": "5b1752f5-c786-4807-b59a-9111b19f5579",
+    "quantity": 2
+  }'

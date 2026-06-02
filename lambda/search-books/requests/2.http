@@ -1,0 +1,1 @@
+curl "https://cxsxq5hy8h.execute-api.us-east-1.amazonaws.com/prod/search?q=clean"

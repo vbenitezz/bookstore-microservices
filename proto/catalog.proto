@@ -1,0 +1,86 @@
+// =============================================================================
+// catalog.proto — Contrato gRPC del Catalog Service
+//
+// Expone operaciones de consulta y gestión de inventario para uso
+// interno de Cart Service y Order Service.
+// =============================================================================
+
+syntax = "proto3";
+
+package catalog;
+
+service CatalogService {
+  // Obtiene los datos de un libro por su ID.
+  rpc GetBook(GetBookRequest) returns (GetBookResponse);
+
+  // Verifica si hay stock suficiente para una cantidad dada.
+  rpc CheckStock(CheckStockRequest) returns (CheckStockResponse);
+
+  // Descuenta unidades del stock al confirmar una orden.
+  // Solo debe llamarse desde Order Service.
+  rpc DeductStock(DeductStockRequest) returns (DeductStockResponse);
+
+  // Restaura stock si un pago falla (compensación).
+  rpc RestoreStock(RestoreStockRequest) returns (RestoreStockResponse);
+}
+
+// --- GetBook ---
+
+message GetBookRequest {
+  string book_id = 1;
+}
+
+message GetBookResponse {
+  bool   found       = 1;
+  string book_id     = 2;
+  string title       = 3;
+  string author      = 4;
+  string isbn        = 5;
+  double price       = 6;
+  int32  stock       = 7;
+  string cover_url   = 8;
+  string error       = 9;
+}
+
+// --- CheckStock ---
+
+message CheckStockRequest {
+  string book_id  = 1;
+  int32  quantity = 2; // Cantidad que se quiere verificar
+}
+
+message CheckStockResponse {
+  bool   available       = 1; // true si hay suficiente stock
+  int32  current_stock   = 2; // Stock actual
+  string book_id         = 3;
+  string error           = 4;
+}
+
+// --- DeductStock ---
+
+message DeductStockRequest {
+  string order_id = 1; // Para idempotencia: si ya se descontó esta orden, no descontar de nuevo
+  repeated StockItem items = 2;
+}
+
+message StockItem {
+  string book_id  = 1;
+  int32  quantity = 2;
+}
+
+message DeductStockResponse {
+  bool   success = 1;
+  string error   = 2;
+}
+
+// --- RestoreStock (compensación) ---
+
+message RestoreStockRequest {
+  string order_id = 1;
+  repeated StockItem items = 2;
+}
+
+message RestoreStockResponse {
+  bool   success = 1;
+  string error   = 2;
+}

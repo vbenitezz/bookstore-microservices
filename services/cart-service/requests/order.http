@@ -1,0 +1,2 @@
+curl http://localhost:3003/cart \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2QwMjFmYy1iNDYyLTRiNTUtODI4Mi0xNzNmNjY1ZjMyNDUiLCJlbWFpbCI6InZhbGVudGluYUBib29rc3RvcmUuY29tIiwicm9sZSI6ImN1c3RvbWVyIiwiaWF0IjoxNzgwMDE2Mzk2LCJleHAiOjE3ODAwMTcyOTZ9.MzEPPvSxlRVroW2ooewBDKpU4NvPo1FEW0ds6nyzYis"

@@ -1,0 +1,50 @@
+# =============================================================================
+# Dockerfile.python — Multi-stage build para Catalog Service
+# =============================================================================
+
+# --- Stage 1: Dependencias ---
+FROM python:3.11-slim AS deps
+WORKDIR /app
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+COPY requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
+
+# --- Stage 2: Desarrollo ---
+FROM python:3.11-slim AS development
+WORKDIR /app
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libpq-dev wget \
+    && rm -rf /var/lib/apt/lists/*
+COPY --from=deps /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
+COPY --from=deps /usr/local/bin /usr/local/bin
+COPY . .
+EXPOSE 3002
+EXPOSE 50052
+WORKDIR /app/src
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "3002", "--reload"]
+
+# --- Stage 3: Producción ---
+FROM python:3.11-slim AS production
+WORKDIR /app
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libpq-dev wget \
+    && rm -rf /var/lib/apt/lists/*
+COPY --from=deps /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
+COPY --from=deps /usr/local/bin /usr/local/bin
+COPY . .
+
+# Compilar los .proto a Python durante el build
+# En producción no hay volúmenes ni scripts manuales
+RUN python src/grpc/compile_proto.py
+
+RUN addgroup --gid 1001 python && \
+    adduser --uid 1001 --gid 1001 --no-create-home --disabled-password appuser
+USER appuser
+
+EXPOSE 3002
+EXPOSE 50052
+WORKDIR /app
+CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "3002", "--workers", "2"]

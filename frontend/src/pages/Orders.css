@@ -1,0 +1,11 @@
+.orders-page { padding: 40px 0; }
+.orders-list { display: flex; flex-direction: column; gap: 16px; margin-top: 24px; }
+/* .order-card { } */
+.order-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+.order-id { font-weight: 600; font-family: monospace; font-size: 13px; color: var(--muted); }
+.order-date { font-size: 13px; color: var(--muted); margin-top: 2px; }
+.order-total { font-size: 20px; font-weight: 700; color: var(--accent); margin-top: 6px; }
+.order-items { border-top: 1px solid var(--border); padding-top: 12px; display: flex; flex-direction: column; gap: 8px; }
+.order-item { display: flex; justify-content: space-between; font-size: 14px; color: var(--muted); }
+.badge-success { background: rgba(107,255,184,0.1); color: var(--success); }
+.badge-danger  { background: rgba(255,107,107,0.1); color: var(--danger); }

@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: order-service-config
+  namespace: bookstore
+data:
+  SERVICE_NAME: "order-service"
+  PORT: "3004"
+  NODE_ENV: "production"
+  LOG_LEVEL: "info"
+
+  # PostgreSQL — RDS
+  DB_HOST: "bookstore-postgres.cw8htjuayjec.us-east-1.rds.amazonaws.com"
+  DB_PORT: "5432"
+  DB_USER: "order_user"
+  DB_NAME: "bookstore_main"
+  DB_SCHEMA: "orders"
+
+  # RabbitMQ — EC2
+  RABBITMQ_URL: "amqp://bookstore:rabbitmqPassword22*@172.16.2.242:5672/"
+
+  # URLs gRPC internas — nombres de Service de Kubernetes
+  AUTH_GRPC_URL: "auth-service:50051"
+  CATALOG_GRPC_URL: "catalog-service:50052"
+  CART_GRPC_URL: "cart-service:50053"
+
+  PROTO_DIR: "/app/proto"

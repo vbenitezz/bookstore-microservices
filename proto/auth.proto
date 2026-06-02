@@ -1,0 +1,55 @@
+// =============================================================================
+// auth.proto — Contrato gRPC del Auth Service
+//
+// Este archivo define los métodos que Auth Service expone para uso
+// interno de otros microservicios (Cart, Order).
+//
+// IMPORTANTE: Este archivo es la fuente de verdad del contrato.
+// Cualquier cambio aquí afecta a todos los servicios que lo consumen.
+// Versionar con cuidado.
+// =============================================================================
+
+syntax = "proto3";
+
+package auth;
+
+// Servicio de autenticación interno
+service AuthService {
+  // Verifica un JWT y retorna los datos del usuario si es válido.
+  // Usado por Cart y Order para validar requests entrantes.
+  rpc VerifyToken(VerifyTokenRequest) returns (VerifyTokenResponse);
+
+  // Retorna el perfil completo de un usuario por su ID.
+  // Usado por Order para obtener datos del comprador.
+  rpc GetUser(GetUserRequest) returns (GetUserResponse);
+}
+
+// --- VerifyToken ---
+
+message VerifyTokenRequest {
+  string token = 1; // JWT Bearer token (sin el prefijo "Bearer ")
+}
+
+message VerifyTokenResponse {
+  bool   valid      = 1; // true si el token es válido y no ha expirado
+  string user_id    = 2; // UUID del usuario (vacío si valid=false)
+  string email      = 3;
+  string role       = 4; // "customer" | "admin"
+  string error      = 5; // Mensaje de error si valid=false
+}
+
+// --- GetUser ---
+
+message GetUserRequest {
+  string user_id = 1; // UUID del usuario
+}
+
+message GetUserResponse {
+  bool   found      = 1;
+  string user_id    = 2;
+  string email      = 3;
+  string first_name = 4;
+  string last_name  = 5;
+  string role       = 6;
+  string created_at = 7; // ISO 8601
+}

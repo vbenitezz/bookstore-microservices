@@ -1,0 +1,28 @@
+.reports-page { padding: 40px 0; }
+.reports-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 32px; flex-wrap: wrap; gap: 16px; }
+.lambda-badge { display: inline-block; background: rgba(124,111,255,0.15); color: var(--accent2); border: 1px solid rgba(124,111,255,0.3); padding: 4px 16px; border-radius: 100px; font-size: 13px; font-weight: 500; margin-bottom: 8px; }
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+.kpi-card { text-align: center; }
+.kpi-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+.kpi-value { font-family: var(--font-display); font-size: 28px; font-weight: 900; color: var(--accent); }
+.reports-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.section-title { font-family: var(--font-display); font-size: 18px; font-weight: 700; margin-bottom: 20px; }
+.status-list { display: flex; flex-direction: column; gap: 12px; }
+.status-row { display: flex; align-items: center; gap: 12px; }
+.status-bar-wrap { flex: 1; }
+.status-name { font-size: 13px; color: var(--muted); display: block; margin-bottom: 4px; }
+.status-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.status-fill { height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.5s; }
+.status-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; font-size: 13px; font-weight: 600; min-width: 60px; }
+.muted { color: var(--muted) !important; }
+.daily-list { display: flex; flex-direction: column; gap: 10px; }
+.daily-row { display: flex; align-items: center; gap: 12px; font-size: 14px; }
+.daily-date { font-family: monospace; color: var(--muted); min-width: 90px; }
+.daily-orders { color: var(--muted); flex: 1; }
+.daily-revenue { font-weight: 700; color: var(--accent); }
+.orders-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.orders-table th { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+.orders-table td { padding: 12px; border-bottom: 1px solid var(--border); }
+.orders-table tr:last-child td { border-bottom: none; }
+.mono { font-family: monospace; }
+@media (max-width: 768px) { .kpi-grid { grid-template-columns: repeat(2,1fr); } .reports-grid { grid-template-columns: 1fr; } }
